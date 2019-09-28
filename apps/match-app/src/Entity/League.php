@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LeagueRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="name_indx", columns={"cleared_name"})})
  */
 class League
 {
@@ -24,6 +25,11 @@ class League
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $clearedName;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sport", inversedBy="leagues")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -33,6 +39,7 @@ class League
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="league")
      */
     private $games;
+
 
     public function __construct()
     {
@@ -98,4 +105,17 @@ class League
 
         return $this;
     }
+
+    public function getClearedName()
+    {
+        return $this->clearedName;
+    }
+
+    public function setClearedName(string $name)
+    {
+        $this->clearedName = $name;
+
+        return $this;
+    }
+
 }
