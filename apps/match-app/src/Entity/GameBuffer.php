@@ -24,6 +24,11 @@ class GameBuffer
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $lang;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $league;
 
     /**
@@ -139,4 +144,17 @@ class GameBuffer
 
         return $this;
     }
+
+
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
 }

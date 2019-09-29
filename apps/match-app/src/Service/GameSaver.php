@@ -11,9 +11,13 @@ class GameSaver
 
     private $bufferRepository;
 
-    public function __construct(GameBufferRepository $bufferRepository)
+    private $recognizer;
+
+    public function __construct(GameBufferRepository $bufferRepository, LanguageRecognizer $recognizer)
     {
         $this->bufferRepository = $bufferRepository;
+
+        $this->recognizer = $recognizer;
     }
 
     public function createFromGameBufferRequest(GameBufferRequest $request) : GameBuffer
@@ -27,6 +31,8 @@ class GameSaver
         $gameBuffer->setSource($request->getSource());
 
         $gameBuffer->setDate(\DateTime::createFromFormat('Y-m-d H:i:s', $request->getDate()));
+
+        $gameBuffer->setLang($this->recognizer->recognizeLanguage($request->getLang()));
 
         $this->bufferRepository->persist($gameBuffer);
         $this->bufferRepository->flush();

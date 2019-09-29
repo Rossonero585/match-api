@@ -43,6 +43,12 @@ class GameBufferRequest
     private $source;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Regex("/^(ру)|(ru)|(en)|(анг)/")
+     */
+    private $lang;
+
+    /**
      * GameBuffer constructor.
      * @param $date
      * @param $sport
@@ -50,8 +56,9 @@ class GameBufferRequest
      * @param $team1
      * @param $team2
      * @param $source
+     * @param $lang
      */
-    public function __construct($date, $sport, $league, $team1, $team2, $source)
+    public function __construct($date, $sport, $league, $team1, $team2, $source, $lang)
     {
         $this->date = $date;
         $this->sport = $sport;
@@ -59,6 +66,7 @@ class GameBufferRequest
         $this->team1 = $team1;
         $this->team2 = $team2;
         $this->source = $source;
+        $this->lang = $lang;
     }
 
 
@@ -158,5 +166,20 @@ class GameBufferRequest
         $this->source = $source;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
+     * @param mixed $lang
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
 
 }

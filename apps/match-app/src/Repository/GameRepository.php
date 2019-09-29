@@ -19,6 +19,16 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
+    public function getGamesBetweenDates(\DateTime $dateTime1, \DateTime $dateTime2)
+    {
+        return $this->createQueryBuilder('g')
+            ->where('g.date BETWEEN :from AND :to')
+            ->setParameter('form', $dateTime1)
+            ->setParameter('to', $dateTime2)
+            ->getQuery()->getResult();
+    }
+
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */

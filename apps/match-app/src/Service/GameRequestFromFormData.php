@@ -27,7 +27,8 @@ class GameRequestFromFormData implements IGameRequestBuilder
             $this->request->get('league'),
             $this->request->get('team1'),
             $this->request->get('team2'),
-            $this->request->getHttpHost()
+            $this->request->getHttpHost(),
+            $this->request->get('lang')
         );
     }
 
