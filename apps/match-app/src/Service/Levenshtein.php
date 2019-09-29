@@ -4,7 +4,6 @@ namespace App\Service;
 
 
 use App\Entity\Itranslated;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class Levenshtein
 {
@@ -16,35 +15,13 @@ class Levenshtein
         $this->transliterator = $transliterator;
     }
 
-    public function findSimilarUsingLevenshtein(ArrayCollection $collection, $needle, $lang)
+    public function findSimilarUsingLevenshtein(array $collection, $needle, $lang, int $treshold = null)
     {
         $distances = array_map(function (Itranslated $item) use($needle, $lang) {
 
-            if ($lang == 'ru') {
+            return $this->getLevensteinDistance($item, $needle, $lang);
 
-                $currNeedle = $needle;
-                $name = $item->getNameRu();
-
-                if (!$name) {
-                    $currNeedle = $this->transliterator->cyr2Lat($needle);
-                    $name = $item->getNameEn();
-                }
-
-            }
-            else {
-
-                $currNeedle = $needle;
-                $name = $item->getNameEn();
-
-                if (!$name) {
-                    $currNeedle = $this->transliterator->lat2Cyr($needle);
-                    $name = $item->getNameRu();
-                }
-            }
-
-            return levenshtein($name, $currNeedle);
-
-        }, $collection->toArray());
+        }, $collection);
 
         asort($distances);
 
@@ -53,13 +30,38 @@ class Levenshtein
         $minDistance = $distances[$minDistanceKey];
 
         /** @var Itranslated $minDistanceItem */
-        $minDistanceItem = $collection->get($minDistanceKey);
+        $minDistanceItem = $collection[$minDistanceKey];
 
-        if ($minDistance < mb_strlen($needle) / 2) {
-            return $minDistanceItem;
+        if ($treshold) {
+            return $minDistance <= $treshold ? $minDistanceItem : null;
         }
         else {
             return $minDistanceItem;
         }
+    }
+
+    public function getLevensteinDistance(Itranslated $item, $needle, $lang)
+    {
+        if ($lang == 'ru') {
+
+            $needle = $this->transliterator->cyr2Lat($needle);
+
+            if ($item->getNameRu()) {
+                $name = $this->transliterator->cyr2Lat($item->getNameRu());
+            }
+            else {
+                $name = $item->getNameEn();
+            }
+        }
+        else {
+
+            $name = $item->getNameEn();
+
+            if (!$name) {
+                $name = $this->transliterator->cyr2Lat($item->getNameRu());
+            }
+        }
+
+        return levenshtein($name, $needle);
     }
 }

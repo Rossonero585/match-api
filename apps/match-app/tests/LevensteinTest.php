@@ -5,7 +5,6 @@ namespace App\Tests;
 use App\Entity\Sport;
 use App\Service\Levenshtein;
 use App\Service\Transliterator;
-use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
 class LevensteinTest extends TestCase
@@ -17,11 +16,11 @@ class LevensteinTest extends TestCase
             new Transliterator()
         );
 
-        $col = new ArrayCollection([
+        $col = [
             (new Sport())->setNameEn('football')->setNameRu('Футбоооооол'),
             (new Sport())->setNameEn('footbll')->setNameRu('Футбоооол'),
-            (new Sport())->setNameEn('footbll123')->setNameRu('Футбоол')]
-        );
+            (new Sport())->setNameEn('footbll123')->setNameRu('Футбоол')
+        ];
 
 
         $g = $lev->findSimilarUsingLevenshtein($col, 'Футбол', 'ru');
@@ -36,11 +35,11 @@ class LevensteinTest extends TestCase
             new Transliterator()
         );
 
-        $col = new ArrayCollection([
-                (new Sport())->setNameEn('football')->setNameRu('Футбоооооол'),
-                (new Sport())->setNameEn('footbll')->setNameRu('Футбоооол'),
-                (new Sport())->setNameEn('Futbol')]
-        );
+        $col = [
+            (new Sport())->setNameEn('football')->setNameRu('Футбоооооол'),
+            (new Sport())->setNameEn('footbll')->setNameRu('Футбоооол'),
+            (new Sport())->setNameEn('Futbol')
+        ];
 
 
         $g = $lev->findSimilarUsingLevenshtein($col, 'Футбол', 'ru');

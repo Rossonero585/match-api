@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Sport;
 use App\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -14,9 +15,20 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class TeamRepository extends ServiceEntityRepository
 {
+
+    use RepositoryTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Team::class);
+    }
+
+
+    public function findTeamByName($name, Sport $sport = null)
+    {
+        $cond = $sport ? "sport_id = '{$sport->getId()}'" : "";
+
+        return $this->fullTextSearch('team', $name, $cond);
     }
 
     // /**

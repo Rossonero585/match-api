@@ -3,14 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
- * @ORM\Table(indexes={@ORM\Index(name="name_indx", columns={"cleared_name"})})
+ * @ORM\Table(indexes={@ORM\Index(name="full_name_idx", columns={"name_en","name_ru"}, flags={"fulltext"})})
  */
-class Team
+class Team implements Itranslated
 {
     /**
      * @ORM\Id()
@@ -22,12 +21,12 @@ class Team
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $nameEn;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $clearedName;
+    private $nameRu;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sport")
@@ -71,14 +70,28 @@ class Team
         return $this;
     }
 
-    public function getClearedName()
+
+    public function getNameEn() : ?string
     {
-        return $this->clearedName;
+        return $this->nameEn;
     }
 
-    public function setClearedName(string $name)
+
+    public function setNameEn($nameEn)
     {
-        $this->clearedName = $name;
+        $this->nameEn = $nameEn;
+
+        return $this;
+    }
+
+    public function getNameRu() : ?string
+    {
+        return $this->nameRu;
+    }
+
+    public function setNameRu($nameRu)
+    {
+        $this->nameRu = $nameRu;
 
         return $this;
     }

@@ -16,6 +16,7 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
         "symfony/maker-bundle": "^1.13",
         "symfony/phpunit-bridge": "^4.3"
     },

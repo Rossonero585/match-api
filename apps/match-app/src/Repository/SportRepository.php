@@ -14,9 +14,17 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class SportRepository extends ServiceEntityRepository
 {
+
+    use RepositoryTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sport::class);
+    }
+
+    public function findSportByName($name)
+    {
+        return $this->fullTextSearch('sport', $name);
     }
 
     // /**

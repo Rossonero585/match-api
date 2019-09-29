@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LeagueRepository")
- * @ORM\Table(indexes={@ORM\Index(name="name_indx", columns={"cleared_name"})})
+ * @ORM\Table(indexes={@ORM\Index(name="full_name_idx", columns={"name_en","name_ru"}, flags={"fulltext"})})
  */
-class League
+class League implements Itranslated
 {
     /**
      * @ORM\Id()
@@ -22,12 +22,12 @@ class League
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $nameEn;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $clearedName;
+    private $nameRu;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sport", inversedBy="leagues")
@@ -51,14 +51,28 @@ class League
         return $this->id;
     }
 
-    public function getName(): ?string
+
+    public function getNameEn() : ?string
     {
-        return $this->name;
+        return $this->nameEn;
     }
 
-    public function setName(string $name): self
+
+    public function setNameEn($nameEn)
     {
-        $this->name = $name;
+        $this->nameEn = $nameEn;
+
+        return $this;
+    }
+
+    public function getNameRu() : ?string
+    {
+        return $this->nameRu;
+    }
+
+    public function setNameRu($nameRu)
+    {
+        $this->nameRu = $nameRu;
 
         return $this;
     }
@@ -102,18 +116,6 @@ class League
                 $game->setLeague(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getClearedName()
-    {
-        return $this->clearedName;
-    }
-
-    public function setClearedName(string $name)
-    {
-        $this->clearedName = $name;
 
         return $this;
     }

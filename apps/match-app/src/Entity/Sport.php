@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SportRepository")
- * @ORM\Table(indexes={@ORM\Index(name="name_indx", columns={"cleared_name"})})
+ * @ORM\Table(indexes={@ORM\Index(name="full_name_idx", columns={"name_en","name_ru"}, flags={"fulltext"})})
  */
 class Sport implements Itranslated
 {
@@ -28,11 +28,6 @@ class Sport implements Itranslated
      * @ORM\Column(type="string", length=255)
      */
     private $nameRu;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $clearedName;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\League", mappedBy="sport")
@@ -113,18 +108,6 @@ class Sport implements Itranslated
                 $game->setSport(null);
             }
         }
-        return $this;
-    }
-
-    public function getClearedName()
-    {
-        return $this->clearedName;
-    }
-
-    public function setClearedName(string $name)
-    {
-        $this->clearedName = $name;
-
         return $this;
     }
 
