@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\SportRepository")
  * @ORM\Table(indexes={@ORM\Index(name="name_indx", columns={"cleared_name"})})
  */
-class Sport
+class Sport implements Itranslated
 {
     /**
      * @ORM\Id()
@@ -22,7 +22,12 @@ class Sport
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $nameEn;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nameRu;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -48,18 +53,6 @@ class Sport
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**
@@ -134,4 +127,31 @@ class Sport
 
         return $this;
     }
+
+
+    public function getNameEn() : ?string
+    {
+        return $this->nameEn;
+    }
+
+
+    public function setNameEn($nameEn)
+    {
+        $this->nameEn = $nameEn;
+
+        return $this;
+    }
+
+    public function getNameRu() : ?string
+    {
+        return $this->nameRu;
+    }
+
+    public function setNameRu($nameRu)
+    {
+        $this->nameRu = $nameRu;
+
+        return $this;
+    }
+
 }
