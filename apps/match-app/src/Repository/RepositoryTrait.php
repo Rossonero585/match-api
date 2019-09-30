@@ -34,7 +34,7 @@ trait RepositoryTrait
         $rsm->addFieldResult('e', 'name_en', 'nameEn');
 
         $q = $em->createNativeQuery(
-        "SELECT id, name_ru, name_en FROM $table WHERE MATCH(name_ru, name_en) AGAINST (? IN NATURAL LANGUAGE MODE) LIMIT 5",
+        "SELECT id, name_ru, name_en FROM $table WHERE MATCH(name_ru, name_en) AGAINST (? IN NATURAL LANGUAGE MODE) AND $condition LIMIT 5",
         $rsm);
 
         $q->setParameter(1, $needle);

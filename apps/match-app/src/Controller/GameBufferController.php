@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\Service\GameSaver;
+use App\Service\GameBufferSaver;
 use App\Service\IGameRequestBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ class GameBufferController extends AbstractController
     /**
      * @Route("/game", name="game_buffer")
      */
-    public function postGame(IGameRequestBuilder $gameRequestBuilder, ValidatorInterface $validator, GameSaver $gameSaver)
+    public function postGame(IGameRequestBuilder $gameRequestBuilder, ValidatorInterface $validator, GameBufferSaver $gameBufferSaver)
     {
         $gameRequest = $gameRequestBuilder->getGameRequest();
 
@@ -26,8 +26,8 @@ class GameBufferController extends AbstractController
             return $this->json($errors, Response::HTTP_BAD_REQUEST);
         }
 
-        $game = $gameSaver->createFromGameBufferRequest($gameRequest);
+        $bufferedGame = $gameBufferSaver->createFromGameBufferRequest($gameRequest);
 
-        return new Response($game->getId());
+        return new Response($bufferedGame->getId(), Response::HTTP_CREATED);
     }
 }

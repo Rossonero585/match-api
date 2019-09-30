@@ -77,7 +77,7 @@ class Team implements Itranslated
     }
 
 
-    public function setNameEn($nameEn)
+    public function setNameEn(string $nameEn)
     {
         $this->nameEn = $nameEn;
 
@@ -89,7 +89,7 @@ class Team implements Itranslated
         return $this->nameRu;
     }
 
-    public function setNameRu($nameRu)
+    public function setNameRu(string $nameRu)
     {
         $this->nameRu = $nameRu;
 
