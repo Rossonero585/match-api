@@ -24,25 +24,25 @@ class Game
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $team1;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Team", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $team2;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\League", inversedBy="games")
+     * @ORM\ManyToOne(targetEntity="App\Entity\League", inversedBy="games", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $league;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sport", inversedBy="games")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sport", inversedBy="games", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $sport;

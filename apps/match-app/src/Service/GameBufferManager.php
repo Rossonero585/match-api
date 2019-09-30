@@ -6,7 +6,7 @@ use App\Entity\GameBuffer;
 use App\Model\GameBufferRequest;
 use App\Repository\GameBufferRepository;
 
-class GameBufferSaver
+class GameBufferManager
 {
 
     private $bufferRepository;

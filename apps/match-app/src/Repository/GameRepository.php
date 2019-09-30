@@ -36,7 +36,7 @@ class GameRepository extends ServiceEntityRepository
             ->where('g.date BETWEEN :from AND :to')
             ->andWhere('g.sport = :s')
             ->setParameter('s', $sport)
-            ->setParameter('form', $dateTime1)
+            ->setParameter('from', $dateTime1)
             ->setParameter('to', $dateTime2);
 
         if ($league) {
@@ -54,7 +54,9 @@ class GameRepository extends ServiceEntityRepository
             $qb->setParameter('t2', $team2);
         }
 
-        return $qb->getQuery()->getSingleResult();
+        $results = $qb->getQuery()->getResult();
+
+        return count($results) ? array_shift($results) : null;
 
     }
 

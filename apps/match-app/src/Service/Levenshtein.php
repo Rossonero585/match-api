@@ -17,6 +17,8 @@ class Levenshtein
 
     public function findSimilarUsingLevenshtein(array $collection, $needle, $lang, int $treshold = null)
     {
+        if (!count($collection)) return null;
+
         $distances = array_map(function (Itranslated $item) use($needle, $lang) {
 
             return $this->getLevensteinDistance($item, $needle, $lang);
@@ -61,6 +63,9 @@ class Levenshtein
                 $name = $this->transliterator->cyr2Lat($item->getNameRu());
             }
         }
+
+        $name = str_replace(' ', '', $name);
+        $needle = str_replace(' ', '', $needle);
 
         return levenshtein($name, $needle);
     }
