@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 
+use App\Repository\GameRepository;
+use App\Service\GameResponseBuilder;
 use App\Model\GameBufferRequest;
 use App\Service\GeneralManager;
 use App\Service\IGameRequestBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,5 +60,41 @@ class GameBufferController extends AbstractController
         }
 
         return new Response("", Response::HTTP_OK);
+    }
+
+
+    /**
+     * @Route("/random_match", name="random_match")
+     */
+
+    public function getRandomMatch(Request $request, GameRepository $repository, GameResponseBuilder $builder)
+    {
+        $date1 = $request->get('date1');
+        $date2 = $request->get('date2');
+        $source = $request->get('source');
+
+        $game = $repository->getRandomGame(
+            $date1 ? $this->createDateTimeFromString($date1) : null,
+            $date2 ? $this->createDateTimeFromString($date2) : null,
+            $source
+        );
+
+        if (!$game) {
+            return new Response('Game is not found', Response::HTTP_NOT_FOUND);
+        }
+
+        $gameResponse = $builder->getGameResponse($game);
+
+        return new JsonResponse(
+            $builder->serializeResponse($gameResponse),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    private function createDateTimeFromString(string $date)
+    {
+       return \DateTime::createFromFormat('Y-m-d H:i:s', $date);
     }
 }

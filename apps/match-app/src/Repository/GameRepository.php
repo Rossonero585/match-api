@@ -61,6 +61,37 @@ class GameRepository extends ServiceEntityRepository
     }
 
 
+    public function getRandomGame(\DateTime $dateTime1 = null, \DateTime $dateTime2 = null, $source = null)
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->join('g.gameBuffers', 'gB');
+
+        if ($dateTime1) {
+            $qb->andWhere('g.date >= :from');
+            $qb->setParameter('from', $dateTime1);
+        }
+
+        if ($dateTime2) {
+            $qb->andWhere('g.date <= :to');
+            $qb->setParameter('to', $dateTime2);
+        }
+
+        if ($source) {
+            $qb->andWhere('gB.source = :source');
+            $qb->setParameter('source', $source);
+        }
+
+        $qb->groupBy('g');
+
+        $games = $qb->getQuery()->getResult();
+
+        if (!count($games)) return null;
+
+        $k = rand(0, count($games) - 1);
+
+        return $games[$k];
+    }
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */
