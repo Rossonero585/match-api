@@ -27,9 +27,28 @@ class GameRequestFromFormData implements IGameRequestBuilder
             $this->request->get('league'),
             $this->request->get('team1'),
             $this->request->get('team2'),
-            $this->request->getHttpHost(),
+            $this->request->get('source'),
             $this->request->get('lang')
         );
+    }
+
+    public function getGameRequests() : array
+    {
+        $requests = [];
+
+        foreach ($this->request->get('date') as $key => $date) {
+            array_push($requests, new GameBufferRequest(
+                $this->request->get('date')[$key],
+                $this->request->get('sport')[$key],
+                $this->request->get('league')[$key],
+                $this->request->get('team1')[$key],
+                $this->request->get('team2')[$key],
+                $this->request->get('source')[$key],
+                $this->request->get('lang')[$key]
+            ));
+        }
+
+        return $requests;
     }
 
 }

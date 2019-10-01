@@ -7,4 +7,6 @@ use App\Model\GameBufferRequest;
 interface IGameRequestBuilder
 {
     function getGameRequest() : GameBufferRequest;
+
+    function getGameRequests() : array;
 }

@@ -35,12 +35,19 @@ class GameRequestFromJsonOrXml implements IGameRequestBuilder
         $game = $this->serializer->deserialize(
             $this->request->getContent(),
             GameBufferRequest::class,
-            $this->request->getContentType() == 'json' ?: 'xml'
+            $this->request->getContentType() == 'json' ? 'json' : 'xml'
         );
 
-        $game->setSource($this->request->getHost());
-
         return $game;
+    }
+
+    public function getGameRequests(): array
+    {
+        return $this->serializer->deserialize(
+            $this->request->getContent(),
+            GameBufferRequest::class."[]",
+            $this->request->getContentType() == 'json' ? 'json' : 'xml'
+        );
     }
 
 }
