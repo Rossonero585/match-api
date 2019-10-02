@@ -17,4 +17,4 @@ WORKDIR /usr/src/app
 
 COPY apps/match-app /usr/src/app
 
-RUN composer intall && php bin/console doctrine:database:create && php bin/console doctrine:fixtures:load
+RUN composer install
