@@ -14,16 +14,21 @@ class SportRecognizer
 
     private $levenshtein;
 
+    private $threshold;
+
     public function __construct(
         SportRepository $repository,
         Transliterator $transliterator,
-        Levenshtein $levenshtein
+        Levenshtein $levenshtein,
+        int $threshold
     ) {
         $this->repository = $repository;
 
         $this->transliterator = $transliterator;
 
         $this->levenshtein = $levenshtein;
+
+        $this->threshold = $threshold;
     }
 
     public function getRecognizedSportByName(string $name, string $lang)
@@ -42,7 +47,7 @@ class SportRecognizer
             $suggestedSports,
             $name,
             $lang,
-            3
+            $this->threshold
         );
     }
 }

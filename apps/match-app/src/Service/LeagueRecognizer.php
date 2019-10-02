@@ -9,7 +9,7 @@ class LeagueRecognizer
 {
     use RecognizerTrait;
 
-    const treshold = 3;
+    private $threshold;
 
     private $repository;
 
@@ -20,13 +20,16 @@ class LeagueRecognizer
     public function __construct(
         LeagueRepository $repository,
         Transliterator $transliterator,
-        Levenshtein $levenshtein
+        Levenshtein $levenshtein,
+        int $threshold
     ) {
         $this->repository = $repository;
 
         $this->transliterator = $transliterator;
 
         $this->levenshtein = $levenshtein;
+
+        $this->threshold = $threshold;
     }
 
 
@@ -43,7 +46,7 @@ class LeagueRecognizer
 
             $league = array_shift($suggestedLeagues);
 
-            if ($this->levenshtein->getLevensteinDistance($league, $name, $lang) <= self::treshold) {
+            if ($this->levenshtein->getLevensteinDistance($league, $name, $lang) <= $this->threshold) {
                 return $league;
             }
         }
@@ -56,7 +59,7 @@ class LeagueRecognizer
             $suggestedLeagues,
             $name,
             $lang,
-            self::treshold
+            $this->threshold
         );
     }
 }

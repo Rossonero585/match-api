@@ -10,18 +10,19 @@ class TeamRecognizer
 {
     use RecognizerTrait;
 
-    const treshold = 3;
-
     private $repository;
 
     private $transliterator;
 
     private $levenshtein;
 
+    private $threshold;
+
     public function __construct(
         TeamRepository  $repository,
         Transliterator $transliterator,
-        Levenshtein $levenshtein
+        Levenshtein $levenshtein,
+        int $threshold
     ) {
 
         $this->repository = $repository;
@@ -29,6 +30,8 @@ class TeamRecognizer
         $this->transliterator = $transliterator;
 
         $this->levenshtein = $levenshtein;
+
+        $this->threshold = $threshold;
     }
 
 
@@ -40,11 +43,13 @@ class TeamRecognizer
             $this->prepareNameForSearch($name, $lang),
             $sport
         );
+        
+        $count = count($suggestedTeams);
 
-        if (count($suggestedTeams) == 1) {
+        if ($count == 1) {
             $team = array_shift($suggestedTeams);
 
-            if ($this->levenshtein->getLevensteinDistance($team, $name, $lang) < self::treshold) {
+            if ($this->levenshtein->getLevensteinDistance($team, $name, $lang) <= $this->threshold) {
                 return $team;
             }
         }
@@ -57,7 +62,7 @@ class TeamRecognizer
             $suggestedTeams,
             $name,
             $lang,
-            self::treshold
+            $this->threshold
         );
     }
 

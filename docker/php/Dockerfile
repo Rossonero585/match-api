@@ -13,10 +13,8 @@ RUN docker-php-ext-enable apcu
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-#RUN composer install
-
 WORKDIR /usr/src/app
 
 COPY apps/match-app /usr/src/app
 
-#RUN PATH=$PATH:/usr/src/apps/vendor/bin:bin
+RUN composer intall && php bin/console doctrine:database:create && php bin/console doctrine:fixtures:load
