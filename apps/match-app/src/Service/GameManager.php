@@ -38,22 +38,28 @@ class GameManager
     public function saveGame(GameBuffer $gameBuffer)
     {
         $sport  = $this->sportRecognizer->getRecognizedSportByName($gameBuffer->getSport(), $gameBuffer->getLang());
-        $league = $this->leagueRecognizer->getRecognizedLeague($gameBuffer->getLeague(), $sport, $gameBuffer->getLang());
-        $team1  = $this->teamRecognizer->getRecognizedTeam($gameBuffer->getTeam1(), $sport, $gameBuffer->getLang());
-        $team2  = $this->teamRecognizer->getRecognizedTeam($gameBuffer->getTeam2(), $sport, $gameBuffer->getLang());
 
-        // if we recognize sport and at least one of team
-        if ($sport && ($team1 || $team2)) {
-            $date1 = (new \DateTime($gameBuffer->getDate()->format('Y-m-d H:i:s')))->modify('-26 hour');
-            $date2 = (new \DateTime($gameBuffer->getDate()->format('Y-m-d H:i:s')))->modify('+26 hour');
-
-            $game = $this->gameRepository->getGamesBetweenDates($sport, $date1, $date2, $league, $team1, $team2);
-
-            if ($game) $this->updateGame($game, $gameBuffer);
+        if (!$sport) {
+            $game = $this->createGame($gameBuffer);
         }
+        else {
+            $league = $this->leagueRecognizer->getRecognizedLeague($gameBuffer->getLeague(), $sport, $gameBuffer->getLang());
+            $team1  = $this->teamRecognizer->getRecognizedTeam($gameBuffer->getTeam1(), $sport, $gameBuffer->getLang());
+            $team2  = $this->teamRecognizer->getRecognizedTeam($gameBuffer->getTeam2(), $sport, $gameBuffer->getLang());
 
-        if (!isset($game)) {
-            $game = $this->createGame($gameBuffer, $sport, $league, $team1, $team2);
+            // if we recognize sport and at least one of team
+            if ($sport && ($team1 || $team2)) {
+                $date1 = (new \DateTime($gameBuffer->getDate()->format('Y-m-d H:i:s')))->modify('-26 hour');
+                $date2 = (new \DateTime($gameBuffer->getDate()->format('Y-m-d H:i:s')))->modify('+26 hour');
+
+                $game = $this->gameRepository->getGamesBetweenDates($sport, $date1, $date2, $league, $team1, $team2);
+
+                if ($game) $this->updateGame($game, $gameBuffer);
+            }
+
+            if (!isset($game)) {
+                $game = $this->createGame($gameBuffer, $sport, $league, $team1, $team2);
+            }
         }
 
         $gameBuffer->setGame($game);
@@ -120,6 +126,7 @@ class GameManager
             $game->setDate($this->getApproximateGameDate($game->getGameBuffers()));
         }
 
+        $this->updateEntityNames($game->getSport(), $gameBuffer->getSport(), $gameBuffer->getLang());
         $this->updateEntityNames($game->getLeague(), $gameBuffer->getLeague(), $gameBuffer->getLang());
         $this->updateEntityNames($game->getTeam1(), $gameBuffer->getTeam1(), $gameBuffer->getLang());
         $this->updateEntityNames($game->getTeam2(), $gameBuffer->getTeam2(), $gameBuffer->getLang());
