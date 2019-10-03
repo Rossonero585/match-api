@@ -2,7 +2,7 @@
 
 #### Загрузка одной игры
 
-> POST /game
+> POST http://localhost:9090/game
 
 ##### Параметры
 
@@ -24,7 +24,8 @@ form data
     team2=Барселона&
     league=Лига%20чемпионов%20УЕФА&
     sport=footbal&
-    lang=ru
+    lang=ru&
+    source=sportdata4.com
 
 json
 
@@ -41,7 +42,7 @@ json
     
 #### Пакетная загрузка
 
-> POST /game_package
+> POST http://localhost:9090/game_package
 
 ##### Параметры
 
@@ -63,12 +64,14 @@ form data
     team2[]=Барселона&
     league[]=Лига%20чемпионов%20УЕФА&
     sport[]=footbal&
+    source[]=sportdata4.com&
     lang[]=ru&
     date[]=2019-01-22%2010:00:00&
     team1[]=Атлетико&
     team2[]=Осасуна&
     league[]=Лига%20чемпионов%20УЕФА&
     sport[]=footbal&
+    source[]=sportdata4.com&
     lang[]=ru
     
 json
@@ -88,7 +91,7 @@ json
 
 #### Получить информацию о случайной игре 
 
-> GET /random_match
+> GET http://localhost:9090/random_match
 
 |Name|Required|Format|Description|
 |----|--------|------|-----------|
@@ -102,7 +105,7 @@ json
        "sport":"футбол",
        "league":"Лига чемпионов УЕФА",
        "team1":"Атлетико Мадрид",
-       "team2":"Отсасуна",
+       "team2":"Осасуна",
        "date":"2019-01-01 13:00:00",
        "bufferCount":2
     }
