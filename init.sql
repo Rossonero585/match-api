@@ -74,5 +74,8 @@ CREATE TABLE `team` (
   CONSTRAINT `FK_C4E0A61FAC78BCF8` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
+INSERT INTO `sport` VALUES (1, 'football', 'футбол');
+INSERT INTO `sport` VALUES (2, 'voleyball', 'волейбол');
+INSERT INTO `sport` VALUES (3, 'hockey', 'хоккей');
+INSERT INTO `sport` VALUES (4, 'basketball', 'баскетбол');
 -- 2019-10-02 15:13:49

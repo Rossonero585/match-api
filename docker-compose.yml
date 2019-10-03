@@ -42,3 +42,10 @@
        - '${NGINX_PORT}:80'
      depends_on:
        - php
+
+   composer:
+     image: composer
+     volumes:
+       - './apps/match-app/:/usr/src/app/'
+     working_dir: '/usr/src/app/'
+     command: composer install
