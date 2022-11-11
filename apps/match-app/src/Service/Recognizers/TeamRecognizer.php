@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Recognizers;
 
 
 use App\Entity\Sport;
@@ -37,8 +37,6 @@ class TeamRecognizer
 
     public function getRecognizedTeam(string $name, Sport $sport, string $lang)
     {
-        $name = $this->toLowerCase($name);
-
         $suggestedTeams = $this->repository->findTeamByName(
             $this->prepareNameForSearch($name, $lang),
             $sport

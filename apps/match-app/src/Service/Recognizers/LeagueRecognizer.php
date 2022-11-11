@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Recognizers;
 
 use App\Entity\Sport;
 use App\Repository\LeagueRepository;
@@ -35,8 +35,6 @@ class LeagueRecognizer
 
     public function getRecognizedLeague(string $name, Sport $sport, string $lang)
     {
-        $name = $this->toLowerCase($name);
-
         $suggestedLeagues = $this->repository->findLeagueByName(
             $this->prepareNameForSearch($name, $lang),
             $sport

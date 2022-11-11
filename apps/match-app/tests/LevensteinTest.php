@@ -3,8 +3,8 @@
 namespace App\Tests;
 
 use App\Entity\Sport;
-use App\Service\Levenshtein;
-use App\Service\Transliterator;
+use App\Service\Recognizers\Levenshtein;
+use App\Service\Recognizers\Transliterator;
 use PHPUnit\Framework\TestCase;
 
 class LevensteinTest extends TestCase

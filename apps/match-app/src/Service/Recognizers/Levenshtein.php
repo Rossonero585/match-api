@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Service;
-
+namespace App\Service\Recognizers;
 
 use App\Entity\Itranslated;
 
@@ -64,8 +63,8 @@ class Levenshtein
             }
         }
 
-        $name = str_replace(' ', '', $name);
-        $needle = str_replace(' ', '', $needle);
+        $name = mb_strtolower(str_replace(' ', '', $name));
+        $needle = mb_strtolower(str_replace(' ', '', $needle));
 
         return levenshtein($name, $needle);
     }

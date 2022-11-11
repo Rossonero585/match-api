@@ -56,6 +56,8 @@ class GameRepository extends ServiceEntityRepository
 
         $results = $qb->getQuery()->getResult();
 
+        $sql = $qb->getQuery()->getSQL();
+
         return count($results) > 0 ? array_shift($results) : null;
 
     }

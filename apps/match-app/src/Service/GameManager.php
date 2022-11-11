@@ -10,6 +10,9 @@ use App\Entity\League;
 use App\Entity\Sport;
 use App\Entity\Team;
 use App\Repository\GameRepository;
+use App\Service\Recognizers\SportRecognizer;
+use App\Service\Recognizers\LeagueRecognizer;
+use App\Service\Recognizers\TeamRecognizer;
 
 class GameManager
 {

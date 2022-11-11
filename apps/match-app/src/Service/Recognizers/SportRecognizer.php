@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Recognizers;
 
 use App\Repository\SportRepository;
 
@@ -33,8 +33,6 @@ class SportRecognizer
 
     public function getRecognizedSportByName(string $name, string $lang)
     {
-        $name = $this->toLowerCase($name);
-
         $suggestedSports = $this->repository->findSportByName($this->prepareNameForSearch($name, $lang));
 
         if (count($suggestedSports) == 1) return array_shift($suggestedSports);

@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\GameBuffer;
 use App\Model\GameBufferRequest;
 use App\Repository\GameBufferRepository;
+use App\Service\Recognizers\LanguageRecognizer;
 
 class GameBufferManager
 {
